@@ -1,0 +1,24 @@
+{
+  "name": "techdegree-fsjs-project-5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1martinsafar/techdegree-fsjs-project-5.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1martinsafar/techdegree-fsjs-project-5/issues"
+  },
+  "homepage": "https://github.com/1martinsafar/techdegree-fsjs-project-5#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "scrape-it": "^5.0.3"
+  }
+}
