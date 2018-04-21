@@ -51,6 +51,7 @@ const getCurrentDate = () => {
 
 // Scrapes the title, price, image url and page url from each shirt product,
 // stores it in a CSV file, can be used by another app to populate a database
+// note: if the program is run twice, it should overwrite the CSV file
 const getProductDetails = () => {
   scrapeIt("http://shirts4mike.com/shirts.php", {
     // Get the url for each product page
@@ -97,6 +98,9 @@ const getProductDetails = () => {
         });
       },1000)
   })
+  .catch ( err => {
+    console.log("There’s been a 404 error. Cannot connect to the to http://shirts4mike.com.");
+  })
 };
 
 // Gets the shirt details from each shirt product
@@ -131,6 +135,9 @@ const getProductInfo = (url, allDetails) => {
         Time: currentDate
       };
       allDetails.push(details);
+  })
+  .catch ( err => {
+    console.log("There’s been a 404 error. Cannot connect to the to http://shirts4mike.com.");
   })
 };
 
