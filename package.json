@@ -19,6 +19,7 @@
   "homepage": "https://github.com/1martinsafar/techdegree-fsjs-project-5#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "json2csv": "^4.1.2",
     "scrape-it": "^5.0.3"
   }
 }
