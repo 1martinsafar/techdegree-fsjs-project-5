@@ -6,7 +6,6 @@
 const express = require("express");
 const app = express();
 
-const jsonParser = require("body-parser").json;
 const fs = require("fs");
 
 // A Node.js scraper: https://www.npmjs.com/package/scrape-it
@@ -21,7 +20,7 @@ const fields = ['Title', 'Price', 'ImageURL', 'URL', 'Time'];
 ========================================================================= */
 
 // If the speficied folder does not exist, it creates it
-const isDirSync = folderPath => {
+const accessFolder = folderPath => {
   try {
     return fs.statSync(folderPath).isDirectory();
   } catch (err) {
@@ -31,7 +30,32 @@ const isDirSync = folderPath => {
       throw err;
     }
   }
-}
+};
+
+// Check if a file exists. If not, create an empty file with the specified name
+// note: currently not used
+const accessFile = name => {
+  fs.stat(name, function(err, stat) {
+      if (err === null) {
+          console.log('File exists');
+      } else if (err.code === 'ENOENT') {
+          console.log("File does not exist");
+          fs.writeFile(name, "");
+      } else {
+          console.log('An error has occured:', err.code);
+      }
+  });
+};
+
+// When an error occurs, log it to a file named scraper-error.log
+// It appends to the bottom of the file with a time stamp and error
+const logError = msg => {
+  const now = new Date();
+  fs.appendFile('./data/scraper-error.log', `[${now}] <${msg}>\n\n`, (err) => {
+  if (err) throw err;
+  console.log('___The error was appended to file!');
+});
+};
 
 // Returns the current date in format: YYYY-MM-DD
 const getCurrentDate = () => {
@@ -96,11 +120,12 @@ const getProductDetails = () => {
             console.log(">>> CSV file saved!");
           }
         });
-      },1000)
+      },1000);
   })
   .catch ( err => {
     console.log("There’s been a 404 error. Cannot connect to the to http://shirts4mike.com.");
-  })
+    logError(err);
+  });
 };
 
 // Gets the shirt details from each shirt product
@@ -126,7 +151,7 @@ const getProductInfo = (url, allDetails) => {
       console.log(`Status Code: ${response.statusCode}`);
       // Collecting: title, price, image url, url for each product
       const currentDate = getCurrentDate();
-      const image = `http://shirts4mike.com/${data.shirts[0].imageUrl}`
+      const image = `http://shirts4mike.com/${data.shirts[0].imageUrl}`;
       const details = {
         Title: data.shirts[0].title,
         Price: data.price,
@@ -138,7 +163,8 @@ const getProductInfo = (url, allDetails) => {
   })
   .catch ( err => {
     console.log("There’s been a 404 error. Cannot connect to the to http://shirts4mike.com.");
-  })
+    logError(err);
+  });
 };
 
 /* ======================================================================
@@ -149,30 +175,28 @@ const getProductInfo = (url, allDetails) => {
 
 getProductDetails();
 
-if (!isDirSync("data")) {
+if (!accessFolder("data")) {
   fs.mkdirSync("data");
 }
 
+// note: currently no HTML content for this app available
 
-
-
-
-// Catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error("Not Found");
-  err.status = 404;
-  next(err);
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.json({
-    error: {
-      message: err.message
-    }
-  });
-});
+// // Catch 404 and forward to error handler
+// app.use((req, res, next) => {
+//   const err = new Error("Not Found");
+//   err.status = 404;
+//   next(err);
+// });
+//
+// // Error handler
+// app.use((err, req, res, next) => {
+//   res.status(err.status || 500);
+//   res.json({
+//     error: {
+//       message: err.message
+//     }
+//   });
+// });
 
 // Setting the PORT for the API to run on
 const port = process.env.PORT || 3000;

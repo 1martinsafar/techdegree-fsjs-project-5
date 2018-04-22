@@ -1,0 +1,3 @@
+[Sun Apr 22 2018 11:55:46 GMT+0200 (Central Europe Daylight Time)] <TypeError: Cannot read property 'imageUrl' of undefined>
+[Sun Apr 22 2018 11:58:32 GMT+0200 (Central Europe Daylight Time)] <Error: getaddrinfo ENOTFOUND shirts4mike.com shirts4mike.com:80>
+[Sun Apr 22 2018 11:59:13 GMT+0200 (Central Europe Daylight Time)] <Error: getaddrinfo ENOTFOUND shirts4mike.comx shirts4mike.comx:80>
