@@ -198,7 +198,7 @@ if (!accessFolder("data")) {
 //   });
 // });
 
-// Setting the PORT for the API to run on
+// Setting the PORT for the app to run on
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
